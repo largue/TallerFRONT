@@ -9,7 +9,6 @@ import org.springframework.web.client.RestTemplate;
 import com.example.taller.model.RespuestaServicio;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,24 +19,16 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet implementation class ServletTaller
  */
-@WebServlet("/jsp/metodosREST/ServletTaller")
-public class ServletTaller extends HttpServlet {
+@WebServlet("/jsp/metodosREST/recogerBiciCliente")
+public class ServletRecogerBiciCliente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletTaller() {
+    public ServletRecogerBiciCliente() {
         super();
-        // TODO Auto-generated constructor stub
     }
-
-	/**
-	 * @see Servlet#init(ServletConfig)
-	 */
-	public void init(ServletConfig config) throws ServletException {
-		// TODO Auto-generated method stub
-	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -59,13 +50,4 @@ public class ServletTaller extends HttpServlet {
 		
 		response.sendRedirect("../ventanaResultado.jsp");
 	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

@@ -13,7 +13,7 @@
 	<h1 align="center">Recoger bicicleta cliente</h1>
 	
 	<br><br>	
-	<form action="ServletTaller" method="GET">
+	<form action="recogerBiciCliente" method="GET">
 		<p>
 			<label>Número de serie: </label>
 			<input type="text" class="input" alt="Número de serie" maxlength="5" name="numSerie"

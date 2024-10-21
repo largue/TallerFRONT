@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 
+<link href="../estilos.css" rel="stylesheet" type="text/css">
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +11,7 @@
 <title>Resultado operación</title>
 </head>
 <body>
-	<h1>Resultado operación</h1>
+	<h1 align="center">Resultado operación</h1>
 	
 	<% RespuestaServicio rs = (RespuestaServicio) request.getSession().getAttribute("respuesta"); %>
 	
