@@ -1,18 +1,33 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+<link href="estilos.css" rel="stylesheet" type="text/css">
+
 <!DOCTYPE html>
 <html>
 <head>
+
+<style>
+	body {
+	    background-image: url("images/spark_piedras.jpg");
+	    background-repeat:no-repeat;
+		background-size:cover;
+	}
+</style>
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Menú principal gestión taller</title>
 </head>
 <body>
-	<h1>Hola!!</h1>
+	<h1 align="center">Menú principal gestión taller</h1>
+
+	<ul>
+ 		<li><a href="<%=request.getContextPath()%>/jsp/metodosREST/entregarBiciAlTaller.jsp">Ir a: Entregar bicicleta para reparación</a></li>
+		<br>
+		<li><a href="<%=request.getContextPath()%>/jsp/metodosREST/actualizarEstadoReparacion.jsp">Ir a: Modificar estado reparación</a></li>
+		<br>
+		<li><a href="<%=request.getContextPath()%>/jsp/metodosREST/recogerBiciCliente.jsp">Ir a: Recoger bici tras reparación</a></li>
+	</ul>
 	
-	<form action="ServletTaller" method="GET">
-		<p><label>Número de serie: </label><input type="text" alt="Número de serie" maxlength="5" name="numSerie"></p>
-		
-		<button type="submit">Enviar</button>
-	</form>
 </body>
 </html>

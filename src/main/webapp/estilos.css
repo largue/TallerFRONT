@@ -1,0 +1,95 @@
+@charset "UTF-8";
+
+.myButton {
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:15px;
+	border:3px solid #29668f;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Verdana;
+	font-size:16px;
+	font-weight:bold;
+	padding:7px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	background-color:#408c99;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.custom_input {
+	display: flex;
+	align-items: center;
+	position: relative;
+	max-width: 100%;
+}
+
+.input {
+	font-family:Verdana;
+	font-size: 18px;
+	font-weight: bold;
+	padding: 5px 10px;
+	outline: none;
+	background: #FFFFFF;
+	color: #000000;
+	border: 1px solid #C4D1EB;
+	border-radius: 5px;
+	box-shadow: 3px 3px 2px 0px #E2E2E2;
+	transition: .3s ease;
+}
+
+.input:focus {
+	background: #F2F2F2;
+	border: 1px solid #5A7EC7;
+	border-radius: 10px;
+}
+
+.input::placeholder {
+	color: #599BB3;
+}
+
+h1 {
+	font-family: Verdana;
+	font-size: 32px;
+	letter-spacing: 2px;
+	word-spacing: 2px;
+	color: #599BB3;
+	font-weight: normal;
+	text-decoration: none;
+	font-style: normal;
+	font-variant: normal;
+	text-transform: capitalize;
+}
+
+p {
+	font-family: Verdana;
+	font-size: 22px;
+	letter-spacing: 2px;
+	word-spacing: 2px;
+	color: #599BB3;
+	font-weight: normal;
+	text-decoration: none;
+	font-style: normal;
+	font-variant: normal;
+}
+
+a {
+    --scaleX: 1.05;
+    --rotate: -2deg;
+
+    color: #39862d;
+    font-family: Verdana;
+    font-size: 20px;
+    text-decoration: underline;
+    position: relative;
+    cursor: pointer;
+    
+}             
