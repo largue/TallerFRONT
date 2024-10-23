@@ -1,5 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+
+<c:set var="context" value="<%=request.getContextPath()%>" />
+
+<link href="${context}/estilos.css" rel="stylesheet" type="text/css">
 
 <link href="estilos.css" rel="stylesheet" type="text/css">
 
@@ -7,16 +13,16 @@
 <html>
 <head>
 
-<style>
-	body {
-	    background-image: url("images/spark_piedras.jpg");
-	    background-repeat:no-repeat;
-		background-size:cover;
-	}
-</style>
+	<style>
+		body {
+		    background-image: url("${context}/images/spark_piedras.jpg");
+		    background-repeat:no-repeat;
+			background-size:cover;
+		}
+	</style>
 
-<meta charset="UTF-8">
-<title>Menú principal gestión taller</title>
+	<meta charset="UTF-8">
+	<title>Menú principal gestión taller</title>
 </head>
 <body>
 	<h1 align="center">Menú principal gestión taller</h1>

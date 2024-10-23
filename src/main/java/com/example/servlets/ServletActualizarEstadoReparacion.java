@@ -19,14 +19,14 @@ import jakarta.servlet.http.HttpSession;
 /**
  * Servlet implementation class ServletTaller
  */
-@WebServlet("/jsp/metodosREST/svRecogerBiciCliente")
-public class ServletRecogerBiciCliente extends HttpServlet {
+@WebServlet("/jsp/metodosREST/svActualizarEstadoReparacion")
+public class ServletActualizarEstadoReparacion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletRecogerBiciCliente() {
+    public ServletActualizarEstadoReparacion() {
         super();
     }
 
@@ -40,7 +40,7 @@ public class ServletRecogerBiciCliente extends HttpServlet {
 		params.put("numSerie", numSerie);
 		
 		RestTemplate plantilla = new RestTemplate();
-		String resultadoJSON = plantilla.getForObject("http://localhost:8080/tallerREST/recogerBiciCliente?numSerie={numSerie}", String.class, params);
+		String resultadoJSON = plantilla.getForObject("http://localhost:8080/tallerREST/actualizarEstadoReparacion?numSerie={numSerie}", String.class, params);
         
         ObjectMapper objectMapper = new ObjectMapper();
         RespuestaServicio rs = objectMapper.readValue(resultadoJSON, RespuestaServicio.class);
