@@ -25,8 +25,17 @@
 	<h1 align="center">Modificar estado reparación</h1>
 	
 	<br><br>
-	<form action="svActualizarEstadoReparacion" method="PUT">
+	<form action="svActualizarEstadoReparacion" method="post">
 		<table>
+			<tr>
+				<td>
+					<p><label>Número de serie: </label></p>
+				</td>
+				<td>
+					<input type="text" id="numSerie" class="input" alt="Número de serie" maxlength="5" name="numSerie"
+								placeholder="Introduzca sólo números" onkeyup="javascript: return soloNumeros(this.value)">
+				</td>
+			</tr>
 			<tr>
 				<td><p><label>Estado reparación: </label></p></td>
 				<td width="40%">

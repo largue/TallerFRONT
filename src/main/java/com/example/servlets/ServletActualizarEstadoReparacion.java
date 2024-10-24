@@ -1,13 +1,13 @@
 package com.example.servlets;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.springframework.web.client.RestTemplate;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.example.servicios.ServicioConsumoRest;
+import com.example.tallerrest.model.BicicletaModDTO;
 import com.example.tallerrest.model.RespuestaServicio;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -31,23 +31,26 @@ public class ServletActualizarEstadoReparacion extends HttpServlet {
     }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String numSerie = request.getParameter("numSerie");
+		String estadoReparacion = request.getParameter("estadoReparacion");
 		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("numSerie", numSerie);
+		BicicletaModDTO bici = new BicicletaModDTO(numSerie, estadoReparacion);
 		
-		RestTemplate plantilla = new RestTemplate();
-		String resultadoJSON = plantilla.getForObject("http://localhost:8080/tallerREST/actualizarEstadoReparacion?numSerie={numSerie}", String.class, params);
+		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
+		
+		RespuestaServicio rs = servicioConsumoRest.llamadaServicioRest("PUT", "http://localhost:8080/tallerREST/actualizarEstadoReparacion", bici);
         
-        ObjectMapper objectMapper = new ObjectMapper();
-        RespuestaServicio rs = objectMapper.readValue(resultadoJSON, RespuestaServicio.class);
-        
-        HttpSession session = request.getSession();
-        session.setAttribute("respuesta", rs);
-		
-		response.sendRedirect("../ventanaResultado.jsp");
+        if (rs != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("respuesta", rs);
+    		
+    		response.sendRedirect("../ventanaResultado.jsp");
+        } else {
+        	//TODO redirigir a ventana de error
+        }
 	}
 }

@@ -1,13 +1,16 @@
 package com.example.servlets;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.springframework.web.client.RestTemplate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.example.servicios.ServicioConsumoRest;
+import com.example.servicios.ServicioConsumoRestImpl;
+import com.example.tallerrest.model.BicicletaBorrDTO;
 import com.example.tallerrest.model.RespuestaServicio;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,6 +24,9 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet("/jsp/metodosREST/svRecogerBiciCliente")
 public class ServletRecogerBiciCliente extends HttpServlet {
+	
+	Logger logger = LoggerFactory.getLogger(ServicioConsumoRestImpl.class);
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -36,18 +42,20 @@ public class ServletRecogerBiciCliente extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String numSerie = request.getParameter("numSerie");
 		
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("numSerie", numSerie);
+		BicicletaBorrDTO bici = new BicicletaBorrDTO(numSerie);
 		
-		RestTemplate plantilla = new RestTemplate();
-		String resultadoJSON = plantilla.getForObject("http://localhost:8080/tallerREST/recogerBiciCliente?numSerie={numSerie}", String.class, params);
-        
-        ObjectMapper objectMapper = new ObjectMapper();
-        RespuestaServicio rs = objectMapper.readValue(resultadoJSON, RespuestaServicio.class);
-        
-        HttpSession session = request.getSession();
-        session.setAttribute("respuesta", rs);
+		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
+		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
 		
-		response.sendRedirect("../ventanaResultado.jsp");
+		RespuestaServicio rs = servicioConsumoRest.llamadaServicioRest("PUT", "http://localhost:8080/tallerREST/recogerBiciCliente", bici);
+		
+        if (rs != null) {
+            HttpSession session = request.getSession();
+            session.setAttribute("respuesta", rs);
+    		
+    		response.sendRedirect("../ventanaResultado.jsp");
+        } else {
+        	//TODO redirigir a ventana de error
+        }
 	}
 }
