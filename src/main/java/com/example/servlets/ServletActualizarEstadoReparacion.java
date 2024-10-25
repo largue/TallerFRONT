@@ -42,7 +42,7 @@ public class ServletActualizarEstadoReparacion extends HttpServlet {
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
 		
-		RespuestaServicio rs = servicioConsumoRest.llamadaServicioRest("PUT", "http://localhost:8080/tallerREST/actualizarEstadoReparacion", bici);
+		RespuestaServicio rs = servicioConsumoRest.peticionesPostPut("PUT", "http://localhost:8080/tallerREST/actualizarEstadoReparacion", bici);
         
         if (rs != null) {
             HttpSession session = request.getSession();

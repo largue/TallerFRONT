@@ -3,6 +3,8 @@
  */
 package com.example.servicios;
 
+import java.util.List;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,8 +19,10 @@ import org.slf4j.LoggerFactory;
 
 import com.example.tallerrest.model.BicicletaAltaDTO;
 import com.example.tallerrest.model.BicicletaBorrDTO;
+import com.example.tallerrest.model.BicicletaDTO;
 import com.example.tallerrest.model.BicicletaModDTO;
 import com.example.tallerrest.model.RespuestaServicio;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
@@ -37,7 +41,7 @@ public class ServicioConsumoRestImpl implements ServicioConsumoRest {
 	}
 
 	@Override
-	public RespuestaServicio llamadaServicioRest(String verbo, String uri, Object objetoEntrada) {
+	public RespuestaServicio peticionesPostPut(String verbo, String uri, Object objetoEntrada) {
 		Object bici = null;
 		RespuestaServicio rs = null;
 		CloseableHttpResponse cHttpResp = null;
@@ -56,13 +60,7 @@ public class ServicioConsumoRestImpl implements ServicioConsumoRest {
 			
 	        CloseableHttpClient httpClient = HttpClients.createDefault();
 	        
-	        if ("GET".equals(verbo)) {
-	        	HttpGet getRequest = new HttpGet(uri);
-		        getRequest.setHeader("Content-Type", "application/json");
-		        getRequest.setHeader("Charset", "UTF-8");
-		        
-		        cHttpResp = httpClient.execute(getRequest);
-	        } else if ("POST".equals(verbo)) {
+	        if ("POST".equals(verbo)) {
 	        	HttpPost postRequest = new HttpPost(uri);
 		        postRequest.setHeader("Content-Type", "application/json");
 		        postRequest.setHeader("Charset", "UTF-8");
@@ -91,5 +89,34 @@ public class ServicioConsumoRestImpl implements ServicioConsumoRest {
 		}
 		
 		return rs;
+	}
+
+	@Override
+	public List<BicicletaDTO> peticionGetBicisTaller(String uri) {
+		List<BicicletaDTO> listaBicis = null;
+		CloseableHttpResponse cHttpResp = null;
+		
+		try {
+	        CloseableHttpClient httpClient = HttpClients.createDefault();
+	        
+	        HttpGet getRequest = new HttpGet(uri);
+	        getRequest.setHeader("Content-Type", "application/json");
+	        getRequest.setHeader("Charset", "UTF-8");
+	        
+	        cHttpResp = httpClient.execute(getRequest);
+	        
+	        HttpEntity entity = cHttpResp.getEntity();
+	        
+	        if (entity != null) {
+	            String resultadoJSON = EntityUtils.toString(entity);
+
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            listaBicis = objectMapper.readValue(resultadoJSON, new TypeReference<>(){});
+	        }
+		} catch (Exception e) {
+			logger.debug(e.getMessage());
+		}
+		
+		return listaBicis;
 	}
 }

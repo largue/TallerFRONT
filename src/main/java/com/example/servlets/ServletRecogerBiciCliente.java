@@ -39,7 +39,7 @@ public class ServletRecogerBiciCliente extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String numSerie = request.getParameter("numSerie");
 		
 		BicicletaBorrDTO bici = new BicicletaBorrDTO(numSerie);
@@ -47,7 +47,7 @@ public class ServletRecogerBiciCliente extends HttpServlet {
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
 		
-		RespuestaServicio rs = servicioConsumoRest.llamadaServicioRest("PUT", "http://localhost:8080/tallerREST/recogerBiciCliente", bici);
+		RespuestaServicio rs = servicioConsumoRest.peticionesPostPut("PUT", "http://localhost:8080/tallerREST/recogerBiciCliente", bici);
 		
         if (rs != null) {
             HttpSession session = request.getSession();

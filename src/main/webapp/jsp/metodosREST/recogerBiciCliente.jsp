@@ -25,7 +25,7 @@
 	<h1 align="center">Recoger bicicleta cliente</h1>
 	
 	<br><br>	
-	<form action="svRecogerBiciCliente" method="GET">
+	<form action="svRecogerBiciCliente" method="POST">
 		<p>
 			<label>Número de serie: </label>
 			<input type="text" id="numSerie" class="input" alt="Número de serie" maxlength="5" name="numSerie"
@@ -35,6 +35,6 @@
 	</form>
 	
 	<br><br>
-	<a href="<%=request.getContextPath()%>">Volver a menú</a>
+	<a href="${context}">Volver a menú</a>
 </body>
 </html>

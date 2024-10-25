@@ -25,7 +25,7 @@
 	<h1 align="center">Modificar estado reparación</h1>
 	
 	<br><br>
-	<form action="svActualizarEstadoReparacion" method="post">
+	<form action="svActualizarEstadoReparacion" method="POST">
 		<table>
 			<tr>
 				<td>
@@ -56,6 +56,6 @@
 	
 	<br>
 	<br>
-	<a href="<%=request.getContextPath()%>">Volver a menú</a>
+	<a href="${context}">Volver a menú</a>
 </body>
 </html>

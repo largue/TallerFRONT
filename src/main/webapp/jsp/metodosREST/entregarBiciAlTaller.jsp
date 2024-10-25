@@ -42,6 +42,6 @@
 	
 	<br>
 	<br>
-	<a href="<%=request.getContextPath()%>">Volver a menú</a>
+	<a href="${context}">Volver a menú</a>
 </body>
 </html>
