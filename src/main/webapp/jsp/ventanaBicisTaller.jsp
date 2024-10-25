@@ -29,7 +29,7 @@
 	<h1 align="center">Bicicletas en el taller</h1>
 	
 	<c:forEach items="${listaBicis}" var="item">
-	    <p>Bicicleta -> Número de serie: ${item.numSerie}   |	Color: ${item.color}	|	 Estado reparación: ${item.estadoReparacion}<br></p>
+	    <p>Bicicleta -> Número de serie: ${item.numSerie}   |	Color: ${item.color}	|	 Estado reparación: ${item.estadoReparacionAsString}<br></p>
 	</c:forEach>
 	
 	<br>

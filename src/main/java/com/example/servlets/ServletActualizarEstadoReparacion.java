@@ -47,6 +47,7 @@ public class ServletActualizarEstadoReparacion extends HttpServlet {
         if (rs != null) {
             HttpSession session = request.getSession();
             session.setAttribute("respuesta", rs);
+            session.removeAttribute("biciEncontrada");
     		
     		response.sendRedirect("../ventanaResultado.jsp");
         } else {

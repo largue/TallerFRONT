@@ -3,6 +3,9 @@ package com.example.servlets;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -21,6 +24,9 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet("/svObtenerBicisTaller")
 public class ServletObtenerBicisTaller extends HttpServlet {
+	
+	Logger logger = LoggerFactory.getLogger(ServletObtenerBicisTaller.class);
+	
 	private static final long serialVersionUID = 1L;
 	
     /**
@@ -34,6 +40,8 @@ public class ServletObtenerBicisTaller extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String numSerie = request.getParameter("numSerie");
+		
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
 		
@@ -41,9 +49,21 @@ public class ServletObtenerBicisTaller extends HttpServlet {
         
         if (listaBicis != null) {
             HttpSession session = request.getSession();
-            session.setAttribute("listaBicis", listaBicis);
+            
+            if (StringUtils.isNotBlank(numSerie)) {
+            	listaBicis.forEach(bici -> {
+        			if (bici.getNumSerie() == Integer.valueOf(numSerie).intValue()) {
+        				session.setAttribute("numSerie", numSerie);
+        				session.setAttribute("estadoReparacion", bici.getEstadoReparacion());
+        			}
+        		});	
+            	
+            	response.sendRedirect(request.getContextPath() + "/jsp/metodosREST/actualizarEstadoReparacion.jsp");
+            } else {
+            	session.setAttribute("listaBicis", listaBicis);
     		
-    		response.sendRedirect(request.getContextPath()+ "/jsp/ventanaBicisTaller.jsp");
+            	response.sendRedirect(request.getContextPath() + "/jsp/ventanaBicisTaller.jsp");
+            }
         } else {
         	//TODO redirigir a ventana de error
         }

@@ -4,6 +4,8 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
 <c:set var="context" value="<%=request.getContextPath()%>" />
+<c:set var="numSerie" value="<%=(String) request.getSession().getAttribute(&quot;numSerie&quot;)%>" />
+<c:set var="estadoReparacion" value="<%=(String) request.getSession().getAttribute(&quot;estadoReparacion&quot;)%>" />
 
 <link href="${context}/estilos.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="${context}/js/comun.js"></script>
@@ -18,6 +20,13 @@
 		}
 	</style>
 	
+	<script type="text/javascript">
+		document.addEventListener("DOMContentLoaded", function(event) {
+		    /*alert(estadoReparacionAsString);
+		    document.getElementById("selectEstadosReparacion").value = ${estadoReparacionAsString};*/
+		});
+	</script>
+	
 	<meta charset="UTF-8">
 	<title>Modificar estado reparación</title>
 </head>
@@ -25,15 +34,16 @@
 	<h1 align="center">Modificar estado reparación</h1>
 	
 	<br><br>
-	<form action="svActualizarEstadoReparacion" method="POST">
+	
+	<form id="formActualizarEstadoReparacion" action="svActualizarEstadoReparacion" method="POST">
 		<table>
 			<tr>
 				<td>
 					<p><label>Número de serie: </label></p>
 				</td>
 				<td>
-					<input type="text" id="numSerie" class="input" alt="Número de serie" maxlength="5" name="numSerie"
-								placeholder="Introduzca sólo números" onkeyup="javascript: return soloNumeros(this.value)">
+					<input type="text" id="numSerie" class="input" alt="Número de serie" maxlength="5" name="numSerie" value="${numSerie}"
+							readonly="readonly">
 				</td>
 			</tr>
 			<tr>
@@ -41,10 +51,9 @@
 				<td width="40%">
 					<div class="custom-select">
 						<select id="selectEstadosReparacion" name="estadoReparacion">
-							<option value="">Seleccion valor</option>
-							<option value="0">Pendiente</option>
-						  	<option value="1">Finalizada</option>
-						  	<option value="2">En curso</option>
+							<option value="0" ${estadoReparacion == '0' ? 'selected=selected' : ''}>Pendiente</option>
+						  	<option value="1" ${estadoReparacion == '1' ? 'selected=selected' : ''}>Finalizada</option>
+						  	<option value="2" ${estadoReparacion == '2' ? 'selected=selected' : ''}>En curso</option>
 						</select>
 						<div class="select-arrow"></div>
 					</div>

@@ -34,9 +34,13 @@
 	<h1 align="center">Menú principal gestión taller</h1>
 
 	<ul style="margin-left: 150px">
+		<c:remove var="biciEncontrada" scope="session"/>
+		<c:remove var="numSerie" scope="session"/>
+		<c:remove var="estadoReparacion" scope="session"/>
+		
  		<li><a href="${context}/jsp/metodosREST/entregarBiciAlTaller.jsp">Ir a: Entregar bicicleta para reparación</a></li>
 		<br>
-		<li><a href="${context}/jsp/metodosREST/actualizarEstadoReparacion.jsp">Ir a: Modificar estado reparación</a></li>
+		<li><a href="${context}/jsp/metodosREST/buscarBici.jsp">Ir a: Modificar estado reparación</a></li>
 		<br>
 		<li><a href="${context}/jsp/metodosREST/recogerBiciCliente.jsp">Ir a: Recoger bicicleta tras reparación</a></li>
 		<br>
