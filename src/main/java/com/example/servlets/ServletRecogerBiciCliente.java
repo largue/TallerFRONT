@@ -1,3 +1,7 @@
+/**
+ * @author Javier
+ * @since 21-10-2024
+ */
 package com.example.servlets;
 
 import java.io.IOException;
@@ -8,7 +12,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.example.servicios.ServicioConsumoRest;
-import com.example.servicios.ServicioConsumoRestImpl;
 import com.example.tallerrest.model.BicicletaBorrDTO;
 import com.example.tallerrest.model.RespuestaServicio;
 
@@ -25,7 +28,7 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/jsp/metodosREST/svRecogerBiciCliente")
 public class ServletRecogerBiciCliente extends HttpServlet {
 	
-	Logger logger = LoggerFactory.getLogger(ServicioConsumoRestImpl.class);
+	Logger logger = LoggerFactory.getLogger(ServletRecogerBiciCliente.class);
 	
 	private static final long serialVersionUID = 1L;
        
@@ -47,15 +50,18 @@ public class ServletRecogerBiciCliente extends HttpServlet {
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
 		
-		RespuestaServicio rs = servicioConsumoRest.peticionesPostPut("PUT", "http://localhost:8080/tallerREST/recogerBiciCliente", bici);
-		
-        if (rs != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("respuesta", rs);
-    		
-    		response.sendRedirect("../ventanaResultado.jsp");
-        } else {
-        	//TODO redirigir a ventana de error
-        }
+		try {
+			RespuestaServicio rs = servicioConsumoRest.peticionesPostPut("PUT", "http://localhost:8080/tallerREST/recogerBiciCliente", bici);
+			
+	        if (rs != null) {
+	            HttpSession session = request.getSession();
+	            session.setAttribute("respuesta", rs);
+	    		
+	    		response.sendRedirect("../ventanaResultado.jsp");
+	        }
+		} catch (Exception e) {
+			logger.debug("Error producido en ServletRecogerBiciCliente: " + e);
+			throw new ServletException();
+		}
 	}
 }

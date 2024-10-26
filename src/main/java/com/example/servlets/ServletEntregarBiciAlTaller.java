@@ -1,7 +1,13 @@
+/**
+ * @author Javier
+ * @since 21-10-2024
+ */
 package com.example.servlets;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -21,6 +27,9 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet("/jsp/metodosREST/svEntregarBiciAlTaller")
 public class ServletEntregarBiciAlTaller extends HttpServlet {
+	
+	Logger logger = LoggerFactory.getLogger(ServletEntregarBiciAlTaller.class);
+	
 	private static final long serialVersionUID = 1L;
 	
     /**
@@ -42,15 +51,18 @@ public class ServletEntregarBiciAlTaller extends HttpServlet {
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
 		
-		RespuestaServicio rs = servicioConsumoRest.peticionesPostPut("POST", "http://localhost:8080/tallerREST/entregarBiciAlTaller", bici);
-        
-        if (rs != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("respuesta", rs);
-    		
-    		response.sendRedirect("../ventanaResultado.jsp");
-        } else {
-        	//TODO redirigir a ventana de error
-        }
+		try {
+			RespuestaServicio rs = servicioConsumoRest.peticionesPostPut("POST", "http://localhost:8080/tallerREST/entregarBiciAlTaller", bici);
+	        
+	        if (rs != null) {
+	            HttpSession session = request.getSession();
+	            session.setAttribute("respuesta", rs);
+	    		
+	    		response.sendRedirect("../ventanaResultado.jsp");
+	        }
+		} catch (Exception e) {
+			logger.debug("Error producido en ServletEntregarBiciAlTaller: " + e);
+			throw new ServletException();
+		}
 	}
 }

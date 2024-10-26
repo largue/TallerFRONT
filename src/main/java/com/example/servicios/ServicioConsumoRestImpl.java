@@ -1,5 +1,6 @@
 /**
- * 
+ * @author Javier
+ * @since 21-10-2024
  */
 package com.example.servicios;
 
@@ -27,7 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 /**
- * 
+ * Implementación del interfaz ServicioConsumoRest
  */
 public class ServicioConsumoRestImpl implements ServicioConsumoRest {
 	
@@ -41,7 +42,7 @@ public class ServicioConsumoRestImpl implements ServicioConsumoRest {
 	}
 
 	@Override
-	public RespuestaServicio peticionesPostPut(String verbo, String uri, Object objetoEntrada) {
+	public RespuestaServicio peticionesPostPut(String verbo, String uri, Object objetoEntrada) throws Exception {
 		Object bici = null;
 		RespuestaServicio rs = null;
 		CloseableHttpResponse cHttpResp = null;
@@ -85,14 +86,15 @@ public class ServicioConsumoRestImpl implements ServicioConsumoRest {
 	            rs = objectMapper.readValue(resultadoJSON, RespuestaServicio.class);
 	        }
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.debug("Error producido en el método ServicioConsumoRestImpl.peticionesPostPut(): " + e);
+			throw(e);
 		}
 		
 		return rs;
 	}
 
 	@Override
-	public List<BicicletaDTO> peticionGetBicisTaller(String uri) {
+	public List<BicicletaDTO> peticionGetBicisTaller(String uri) throws Exception {
 		List<BicicletaDTO> listaBicis = null;
 		CloseableHttpResponse cHttpResp = null;
 		
@@ -113,8 +115,10 @@ public class ServicioConsumoRestImpl implements ServicioConsumoRest {
 	            ObjectMapper objectMapper = new ObjectMapper();
 	            listaBicis = objectMapper.readValue(resultadoJSON, new TypeReference<>(){});
 	        }
+	        
 		} catch (Exception e) {
-			logger.debug(e.getMessage());
+			logger.debug("Error producido en el método ServicioConsumoRestImpl.peticionGetBicisTaller(): " + e);
+			throw(e);
 		}
 		
 		return listaBicis;

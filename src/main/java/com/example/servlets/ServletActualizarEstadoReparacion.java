@@ -1,7 +1,13 @@
+/**
+ * @author Javier
+ * @since 21-10-2024
+ */
 package com.example.servlets;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -21,6 +27,9 @@ import jakarta.servlet.http.HttpSession;
  */
 @WebServlet("/jsp/metodosREST/svActualizarEstadoReparacion")
 public class ServletActualizarEstadoReparacion extends HttpServlet {
+	
+	Logger logger = LoggerFactory.getLogger(ServletActualizarEstadoReparacion.class);
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -42,16 +51,19 @@ public class ServletActualizarEstadoReparacion extends HttpServlet {
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
 		
-		RespuestaServicio rs = servicioConsumoRest.peticionesPostPut("PUT", "http://localhost:8080/tallerREST/actualizarEstadoReparacion", bici);
-        
-        if (rs != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("respuesta", rs);
-            session.removeAttribute("biciEncontrada");
-    		
-    		response.sendRedirect("../ventanaResultado.jsp");
-        } else {
-        	//TODO redirigir a ventana de error
-        }
+		try {
+			RespuestaServicio rs = servicioConsumoRest.peticionesPostPut("PUT", "http://localhost:8080/tallerREST/actualizarEstadoReparacion", bici);
+	        
+	        if (rs != null) {
+	            HttpSession session = request.getSession();
+	            session.setAttribute("respuesta", rs);
+	            session.removeAttribute("biciEncontrada");
+	    		
+	    		response.sendRedirect("../ventanaResultado.jsp");
+	        }
+		} catch (Exception e) {
+			logger.debug("Error producido en ServletActualizarEstadoReparacion: " + e);
+			throw new ServletException();
+		}
 	}
 }

@@ -1,3 +1,7 @@
+/**
+ * @author Javier
+ * @since 21-10-2024
+ */
 package com.example.servlets;
 
 import java.io.IOException;
@@ -8,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.util.CollectionUtils;
 
 import com.example.servicios.ServicioConsumoRest;
 import com.example.tallerrest.model.BicicletaDTO;
@@ -45,27 +50,29 @@ public class ServletObtenerBicisTaller extends HttpServlet {
 		ApplicationContext appCtx = new ClassPathXmlApplicationContext("applicationContext.xml");
 		ServicioConsumoRest servicioConsumoRest = (ServicioConsumoRest) appCtx.getBean("servicioConsumoRest");
 		
-		List<BicicletaDTO> listaBicis = servicioConsumoRest.peticionGetBicisTaller("http://localhost:8080/tallerREST/obtenerBicisTaller");
-        
-        if (listaBicis != null) {
-            HttpSession session = request.getSession();
-            
-            if (StringUtils.isNotBlank(numSerie)) {
-            	listaBicis.forEach(bici -> {
-        			if (bici.getNumSerie() == Integer.valueOf(numSerie).intValue()) {
-        				session.setAttribute("numSerie", numSerie);
-        				session.setAttribute("estadoReparacion", bici.getEstadoReparacion());
-        			}
-        		});	
-            	
-            	response.sendRedirect(request.getContextPath() + "/jsp/metodosREST/actualizarEstadoReparacion.jsp");
-            } else {
-            	session.setAttribute("listaBicis", listaBicis);
-    		
-            	response.sendRedirect(request.getContextPath() + "/jsp/ventanaBicisTaller.jsp");
-            }
-        } else {
-        	//TODO redirigir a ventana de error
-        }
+		List<BicicletaDTO> listaBicis;
+		try {
+			listaBicis = servicioConsumoRest.peticionGetBicisTaller("http://localhost:8080/tallerREST/obtenerBicisTaller");
+			
+			HttpSession session = request.getSession();
+	        
+	        if (!CollectionUtils.isEmpty(listaBicis) && StringUtils.isNotBlank(numSerie)) {
+	        	listaBicis.forEach(bici -> {
+	    			if (bici.getNumSerie() == Integer.valueOf(numSerie).intValue()) {
+	    				session.setAttribute("numSerie", numSerie);
+	    				session.setAttribute("estadoReparacion", bici.getEstadoReparacion());
+	    			}
+	    		});	
+	        	
+	        	response.sendRedirect(request.getContextPath() + "/jsp/metodosREST/actualizarEstadoReparacion.jsp");
+	        } else {
+	        	session.setAttribute("listaBicis", listaBicis);
+			
+	        	response.sendRedirect(request.getContextPath() + "/jsp/ventanaBicisTaller.jsp");
+	        }
+		} catch (Exception e) {
+			logger.debug("Error producido en ServletObtenerBicisTaller: " + e);
+			throw new ServletException();
+		}
 	}
 }
